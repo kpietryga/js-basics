@@ -1,3 +1,5 @@
+import {ArrayService} from "./array-service";
+
 /**
  * Generates a random integer within a given range.
  *
@@ -26,3 +28,28 @@ const generateArray = (min, max) => {
         );
 }
 
+/**
+ * The main function of the program, which creates two random arrays, merges them, and performs various operations on them.
+ *
+ * The function performs the following operations:
+ * - Merges two randomly generated arrays using `ArrayService`.
+ * - Displays the merged array in the console.
+ * - Counts and displays the number of prime numbers in the merged array.
+ * - Finds and displays the maximum value in the array and its location.
+ * - Finds and displays the location of the element with the highest sum of neighbors.
+ * - Calculates and displays the sum of values needed to equalize all elements to the maximum value in the array.
+ */
+export const mainJoinArr = () => {
+    const arr = new ArrayService(generateArray(1, 5), generateArray(1, 5))
+    console.log(arr.mergedArr);
+    // console.table(arr.mergedArr);
+
+    console.log("===== 1 =====")
+    console.log("Number of prime numbers", arr.countPrimeNumbers());
+    console.log("===== 2 =====")
+    console.dir(arr.getMax(), {depth: null});
+    console.log("===== 3 =====")
+    console.log(arr.findMaxSumNeighbors());
+    console.log("===== 4 =====")
+    console.log(arr.sumToAddToEqualize());
+}

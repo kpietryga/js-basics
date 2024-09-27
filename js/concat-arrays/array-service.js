@@ -4,6 +4,8 @@ import {Point} from "./point";
 export class ArrayService {
     constructor(arr1, arr2) {
         this.mergedArr = this.merge(arr1, arr2);
+        this.maxElement = this.getMax().maxValue
+        this.eratosthenesSieve = new EratosthenesSieve(this.maxElement);
     }
 
     /**
@@ -39,6 +41,16 @@ export class ArrayService {
             const zerosArr = Array(limit - row.length).fill(0)
             return [...row, ...zerosArr]
         })
+    }
+
+    /**
+     * Counts the number of prime numbers in the combined two-dimensional array.
+     * Uses the Sieve of Eratosthenes algorithm for this purpose.
+     *
+     * @returns {number} The number of prime numbers in the array.
+     */
+    countPrimeNumbers() {
+        return this.mergedArr.flat().filter(el => this.eratosthenesSieve.isPrime(el)).length;
     }
 
     /**
@@ -132,6 +144,35 @@ export class ArrayService {
 
     }
 
+    /**
+     * A private method that finds the point with the shortest distance from a given starting point.
+     *
+     * @param {Point[]} points - An array of points to check.
+     * @param {Point} startPoint - The starting point from which the distance is measured.
+     * @returns {Object} An object containing the shortest distance (`distance`) and the corresponding points (`points`).
+     */
+    #findLowestDistanceToPoint(points, startPoint) {
+        return points.reduce((acc, curr) => {
+            //console.log(curr)
+            const distance = startPoint.getDistance(curr);
+            if (acc.distance > distance) {
+                acc.distance = distance;
+                acc.points = [curr];
+            } else if (acc.distance === distance) {
+                acc.points = [...acc.points, curr];
+            }
 
+            return acc;
+        }, {distance: Infinity, points: []});
+    }
+
+    /**
+     * Calculates the sum of values that need to be added to each element in the array to equalize them with the maximum element.
+     *
+     * @returns {number} The sum of values to be added.
+     */
+    sumToAddToEqualize() {
+        return this.mergedArr.flat()
+            .reduce((acc, curr) => acc + (this.maxElement - curr), 0)
+    }
 }
-
