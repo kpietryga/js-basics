@@ -16,13 +16,44 @@ export default class Text {
         this.distances = this.#countDistances();
     }
 
+    /**
+     * Finds the letter or letters with the maximum distance between repetitions.
+     * @returns {Object} - An object containing the maximum distance and letters.
+     */
+    findMaxDistanceChar() {
+        return [...this.distances].reduce((acc, curr) => {
+            const distance = curr[1];
+            const char = curr[0];
+            if (distance > acc.max) {
+                acc.max = distance;
+                acc.result = [char];
+            } else if (distance === acc.max) {
+                acc.result = [...acc.result, char];
+            }
+            return acc;
+        }, {result: [], max: 0});
+    }
+
+    /**
+     * Calculates the minimum number of shifts needed to move the specified letter to the front of the text.
+     * @param {string} char - The letter to be shifted.
+     * @returns {number|null} - The minimum number of shifts, or null if the letter is not in the text.
+     */
+    minShiftsToFront(char) {
+        console.log(`selected character: ${char}`);
+        if (!this.positions.has(char)) {
+            console.log("character not found in the text");
+            return null;
+        }
+        return this.positions.get(char).reduce((acc, curr, i) => acc + curr - i, 0);
+    }
 
     /**
      * Generates a symmetric text where each letter is replaced by its symmetric counterpart from the alphabet.
      * @returns {string} - The symmetric text.
      */
     generateSymmetricWords() {
-        return this.chars.map(word => Text.symmetricMap.get(word)).join("");
+        return this.chars.map(word => Text.symetricMap.get(word)).join("");
     }
 
     /**
@@ -59,7 +90,7 @@ export default class Text {
         return distanceByChar;
     }
 
-    static symmetricMap = Text.generateSymmetricMap();
+    static symetricMap = Text.generateSymmetricMap();
 
     /**
      * Generates a map of symmetric letters in the alphabet (e.g., A -> Z, B -> Y).
