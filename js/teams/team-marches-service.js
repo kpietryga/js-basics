@@ -40,3 +40,31 @@ export const teamMatchesService = (team) => {
     };
 
 };
+
+/**
+ * Calculates the goal balance of the team.
+ *
+ * @returns {Object} - An object containing the number of goals scored by the team and conceded by the team.
+ */
+const getGoalBalance = () => {
+    return matches.reduce((acc, curr) => {
+        if (curr.isHome()) {
+            acc.teamGoals += curr.homeGoals;
+            acc.opponentGoals += curr.awayGoals;
+        } else {
+            acc.teamGoals += curr.awayGoals;
+            acc.opponentGoals += curr.homeGoals;
+        }
+        return acc;
+    }, {teamGoals: 0, opponentGoals: 0});
+};
+
+/**
+ * Calculates the average attendance at the team's matches.
+ *
+ * @returns {number} - Average attendance at matches.
+ */
+const getAverageAttendance = () => {
+    const sum = matches.reduce((sum, match) => sum + match.audience, 0);
+    return sum / matches.length;
+};
