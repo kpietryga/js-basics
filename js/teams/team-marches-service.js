@@ -86,7 +86,7 @@ const getHomeAwayWinBalance = () => {
 };
 
 /**
- * Calculates the biggest win and biggest loss for the team.
+ * Calculates the biggest win and biggest loss for the team
  *
  * @returns {Object} - An object containing the biggest win and biggest loss.
  */
