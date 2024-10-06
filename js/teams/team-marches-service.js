@@ -68,3 +68,54 @@ const getAverageAttendance = () => {
     const sum = matches.reduce((sum, match) => sum + match.audience, 0);
     return sum / matches.length;
 };
+
+/**
+ * Calculates the win balance at home and away.
+ *
+ * @returns {Object} - An object containing the number of home and away wins.
+ */
+const getHomeAwayWinBalance = () => {
+    return matches.reduce((acc, curr) => {
+        if (curr.isHomeWinner()) {
+            acc.home++;
+        } else if (curr.isAwayWinner()) {
+            acc.away++;
+        }
+        return acc;
+    }, {home: 0, away: 0});
+};
+
+/**
+ * Calculates the biggest win and biggest loss for the team.
+ *
+ * @returns {Object} - An object containing the biggest win and biggest loss.
+ */
+const getBiggestWinAndLoss = () => {
+    return matches.reduce((acc, curr) => {
+        let diff = curr.homeGoals - curr.awayGoals;
+
+        if (diff === 0) {
+            return acc;
+        }
+
+        if (curr.isAway()) {
+            diff *= (-1);
+        }
+
+        if (diff > acc.win.diff) {
+            acc.win.diff = diff;
+            acc.win.result = [curr];
+        } else if (diff === acc.win.diff) {
+            acc.win.result.push(curr);
+        }
+
+        if (diff < acc.loss.diff) {
+            acc.loss.diff = diff;
+            acc.loss.result = [curr];
+        } else if (diff === acc.loss.diff) {
+            acc.loss.result.push(curr);
+        }
+
+        return acc;
+    }, {win: {diff: 0, result: []}, loss: {diff: 0, result: []}});
+};
