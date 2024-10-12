@@ -32,3 +32,32 @@ TriangleSides.prototype.getSides = function () {
 TriangleSides.prototype.calcPerimeter = function () {
     return this.a + this.b + this.c;
 }
+
+/**
+ * Checks if the perimeter of the triangle is greater than the given limit.
+ * @param {number} limit - The perimeter limit.
+ * @returns {boolean} - True if the triangle's perimeter is greater than the limit, otherwise false.
+ */
+TriangleSides.prototype.hasPerimeterGreaterThan = function (limit) {
+    return this.calcPerimeter() > limit;
+}
+
+/**
+ * Calculates the area of the triangle using Heron's formula.
+ * @returns {number} - The area of the triangle.
+ */
+TriangleSides.prototype.calcArea = function () {
+    const p = this.calcPerimeter() / 2;
+    return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
+}
+
+/**
+ * Checks if the triangle is a right-angled triangle.
+ * @returns {boolean} - True if the triangle is right-angled, otherwise false.
+ */
+TriangleSides.prototype.isRightAngled = function () {
+    const a2 = this.a ** 2;
+    const b2 = this.b ** 2;
+    const c2 = this.c ** 2;
+    return a2 + b2 === c2 || a2 + c2 === b2 || c2 + b2 === a2;
+}
