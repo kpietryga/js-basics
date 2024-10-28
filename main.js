@@ -1,6 +1,6 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
+// import javascriptLogo from './javascript.svg'
+// import viteLogo from '/vite.svg'
 
 import {mainTeams} from "./js/teams/main-teams";
 import {mainStringGenerator} from "./js/string-generator/main-string-generator";
@@ -13,3 +13,33 @@ const stringGeneratorButton = document.getElementById("string-generator");
 const concatArrButton  = document.getElementById("concat");
 const triangleClassButton = document.getElementById("triangles-classes");
 const triangleFunctionsButton = document.getElementById("triangles-functions");
+
+teamButton.addEventListener("click", () => {
+    console.clear()
+    mainTeams()
+})
+
+stringGeneratorButton.addEventListener("click", () => {
+    console.clear()
+    mainStringGenerator()
+})
+
+triangleClassButton.addEventListener("click", () => {
+    console.clear()
+    mainStringGenerator()
+})
+
+triangleClassButton.addEventListener("click", () => {
+    console.clear()
+    mainTriangleClass()
+})
+
+triangleFunctionsButton.addEventListener("click", () => {
+    console.clear()
+    mainTrianglesFunction()
+})
+
+concatArrButton.addEventListener("click", () => {
+    console.clear()
+    mainJoinArr()
+})
