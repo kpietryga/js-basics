@@ -3,6 +3,10 @@
 
 This project provides a simple web interface for running various JavaScript task solutions. Using buttons on the webpage, you can execute different tasks and see the results in the browser console. The project is built using Vite, which ensures fast development and build processes.
 
+## Demo
+
+[JS BASIC DEMO](https://js-basic.pietryga.com.pl/)
+
 ## Features
 
 The project includes the following JavaScript tasks:
