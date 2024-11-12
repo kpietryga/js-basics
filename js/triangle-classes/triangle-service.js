@@ -1,66 +1,56 @@
 /**
- * Class representing the sides of a triangle.
- * Checks whether the given sides form a valid triangle and provides methods to calculate its parameters.
+ * Service for operations on a set of triangles based on their sides.
+ * @param {TriangleSides[]} sides - Array of triangles.
  */
-export class TriangleSides {
+export const triangleService = (sides) => {
 
     /**
-     * @param {number} a - The first side of the triangle.
-     * @param {number} b - The second side of the triangle.
-     * @param {number} c - The third side of the triangle.
-     * @throws {Error} - Throws an exception if the sides do not satisfy the triangle inequality.
+     * Finds the triangles with the minimum and maximum area and calculates the ratio of the smallest to the largest area.
+     * @returns {Object} - Object containing the minimum area, maximum area, and the ratio.
      */
-    constructor(a, b, c) {
-        if (!(a + b > c && a + c > b && b + c > a)) {
-            throw new Error('Triangle sides - wrong sides - give other sides');
+    const findMinMaxArea = () => {
+        const minMax = sides.reduce((acc, curr) => {
+            const area = curr.calcArea();
+            if (acc.min > area) acc.min = area;
+            if (acc.max < area) acc.max = area;
+            return acc;
+        }, { min: Infinity, max: 0 });
+
+        return {
+            minArea: minMax.min,
+            maxArea: minMax.max,
+            ratio: minMax.min / minMax.max,
+        };
+    };
+
+    /**
+     * Filters out right-angled triangles from the list.
+     * @returns {TriangleSides[]} - Array of right-angled triangles.
+     */
+    const findRightAngledTriangles = () => sides.filter(t => t.isRightAngled());
+
+    /**
+     * Finds triangles with the largest perimeter.
+     * @param {TriangleSides[]} arr - Array of triangles.
+     * @returns {Object} - Object containing the maximum perimeter and an array of triangles with that perimeter.
+     */
+    const maxPerimeter = (arr) => arr.reduce((acc, curr) => {
+        const currPer = curr.calcPerimeter();
+        if (curr.hasPerimeterGreaterThan(acc.maxValue)) {
+            acc.maxValue = currPer;
+            acc.maxTriangles = [curr];
+        } else if (currPer === acc.maxValue) {
+            acc.maxTriangles.push(curr);
         }
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
+        return acc;
+    }, {
+        maxValue: 0,
+        maxTriangles: []
+    });
 
-    /**
-     * Returns the sides of the triangle in ascending order.
-     * @returns {number[]} - Array of the triangle's sides.
-     */
-    getSides() {
-        return [this.a, this.b, this.c].sort((a, b) => a - b);
-    }
-
-    /**
-     * Calculates the perimeter of the triangle.
-     * @returns {number} - The perimeter of the triangle.
-     */
-    calcPerimeter() {
-        return this.a + this.b + this.c;
-    }
-
-    /**
-     * Checks if the perimeter of the triangle is greater than the given limit.
-     * @param {number} limit - The perimeter limit.
-     * @returns {boolean} - True if the triangle's perimeter is greater than the limit, otherwise false.
-     */
-    hasPerimeterGreaterThan(limit) {
-        return this.calcPerimeter() > limit;
-    }
-
-    /**
-     * Calculates the area of the triangle using Heron's formula.
-     * @returns {number} - The area of the triangle.
-     */
-    calcArea() {
-        const p = this.calcPerimeter() / 2;
-        return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
-    }
-
-    /**
-     * Checks if the triangle is right-angled.
-     * @returns {boolean} - True if the triangle is right-angled, otherwise false.
-     */
-    isRightAngled() {
-        const a2 = this.a ** 2;
-        const b2 = this.b ** 2;
-        const c2 = this.c ** 2;
-        return a2 + b2 === c2 || a2 + c2 === b2 || c2 + b2 === a2;
-    }
-}
+    return {
+        findMinMaxArea,
+        findRightAngledTriangles,
+        maxPerimeter,
+    };
+};

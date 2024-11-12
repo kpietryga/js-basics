@@ -1,7 +1,4 @@
 import './style.css'
-// import javascriptLogo from './javascript.svg'
-// import viteLogo from '/vite.svg'
-
 import {mainTeams} from "./js/teams/main-teams";
 import {mainStringGenerator} from "./js/string-generator/main-string-generator";
 import {mainTriangleClass} from "./js/triangle-classes/triangles-main";
